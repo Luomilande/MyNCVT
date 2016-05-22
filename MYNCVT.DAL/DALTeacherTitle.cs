@@ -30,7 +30,6 @@ namespace MyNCVT.DAL
 
         public bool AddTeacherTitle(TeacherTitle teacherTitle)
         {
-            bool addFlag = false;
             string sql = "insert into TeacherTitle(TeacherTitleName, TeacherTitleDescription) values(@TeacherTitleName, @TeacherTitleDescription)";
 
             SqlParameter[] parameters ={
@@ -40,11 +39,8 @@ namespace MyNCVT.DAL
             parameters[0].Value = teacherTitle.TeacherTitleName;
             parameters[1].Value = teacherTitle.TeacherTitleDescription;
 
-            int n = DBHelper.ExecuteCommand(sql, parameters);
-            if (n == 1)
-                addFlag = true;
-
-            return addFlag;
+            int n = DBHelper.ExecuteCommand(sql, parameters);           
+            return n == 1;
         }
     }
 }

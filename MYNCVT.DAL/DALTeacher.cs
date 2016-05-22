@@ -83,7 +83,6 @@ namespace MyNCVT.DAL
 
         public bool AddTeacher(Teacher teacher)
         {
-            bool addFlag = false;
             string sql = "insert into Teacher(DepartmentId, SpecialtyId, TeacherTitleId, TeacherPositionId, TeacherLoginId, TeacherLoginPwd, TeacherNo, TeacherName, TeacherGender, TeacherEnabled) values(@DepartmentId, @SpecialtyId, @TeacherTitleId, @TeacherPositionId, @TeacherLoginId, @TeacherLoginPwd, @TeacherNo, @TeacherName, @TeacherGender, @TeacherEnabled)";
             SqlParameter[] parameters ={
                                            new SqlParameter("@DepartmentId", SqlDbType.Int),
@@ -108,12 +107,8 @@ namespace MyNCVT.DAL
             parameters[8].Value = teacher.TeacherGender;
             parameters[9].Value = teacher.TeacherEnabled;
 
-            int n = DBHelper.ExecuteCommand(sql, parameters);
-            if (n == 1)
-            {
-                addFlag = true;
-            }
-            return addFlag;
+            int n = DBHelper.ExecuteCommand(sql, parameters);            
+            return n == 1;
         }
     }
 }

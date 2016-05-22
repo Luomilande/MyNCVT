@@ -45,7 +45,6 @@ namespace MyNCVT.DAL
         /// <returns></returns>
         public bool AddDepartment(Department department)
         {
-            bool addFlag = false;
             string sql = "insert into Department(DepartmentFullName, DepartmentShortName, DepartmentDescription) values(@DepartmentFullName, @DepartmentShortName, @DepartmentDescription)";
             SqlParameter[] parameters = {
                                             new SqlParameter("@DepartmentFullName",SqlDbType.VarChar,50),
@@ -56,9 +55,7 @@ namespace MyNCVT.DAL
             parameters[1].Value = department.DepartmentShortName;
             parameters[2].Value = department.DepartmentDescription;
             int n = DBHelper.ExecuteCommand(sql, parameters);
-            if (n == 1)
-                addFlag = true;
-            return addFlag;
+            return n == 1;
         }
 
         /// <summary>
@@ -93,7 +90,6 @@ namespace MyNCVT.DAL
         /// <returns></returns>
         public bool ModifyDepartment(Department department)
         {
-            bool modifyFlag = false;
             string sql = "update Department set DepartmentFullName = @DepartmentFullName, DepartmentShortName = @DepartmentShortName, DepartmentDescription = @DepartmentDescription where DepartmentId = @DepartmentId";
             SqlParameter[] parameters = {
                                             new SqlParameter("@DepartmentFullName",SqlDbType.VarChar,50),
@@ -107,11 +103,7 @@ namespace MyNCVT.DAL
             parameters[3].Value = department.DepartmentId;
 
             int n = DBHelper.ExecuteCommand(sql, parameters);
-            if (n == 1)
-            {
-                modifyFlag = true;
-            }
-            return modifyFlag;
+            return n == 1;
         }
 
         /// <summary>
@@ -121,16 +113,11 @@ namespace MyNCVT.DAL
         /// <returns></returns>
         public bool DeleteDepartmentByDepartmentId(int departmentId)
         {
-            bool deleteFlag = false;
             string sql = "delete from Department where DepartmentId = @DepartmentId";
             SqlParameter parameters = new SqlParameter("@DepartmentId", SqlDbType.Int);
             parameters.Value = departmentId;
             int n = DBHelper.ExecuteCommand(sql, parameters);
-            if (n == 1)
-            {
-                deleteFlag = true;
-            }
-            return deleteFlag;
+            return n == 1;
         }
 
         #endregion
