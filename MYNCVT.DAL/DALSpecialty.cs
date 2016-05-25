@@ -30,10 +30,34 @@ namespace MyNCVT.DAL
             return listSpecialty;
         }
 
+        public IList<SpecialtyBusiness> GetAllSpecialtyBusiness()
+        {
+            IList<SpecialtyBusiness> listSpecialty = new List<SpecialtyBusiness>();
+            string sql = "SELECT   Specialty.*, Department.DepartmentFullName, Department.DepartmentShortName FROM Specialty INNER JOIN Department ON Specialty.DepartmentId = Department.DepartmentId";
+            using (SqlDataReader reader = DBHelper.ExecuteReader(sql))
+            {
+                while (reader.Read())
+                {
+                    SpecialtyBusiness specialty = new SpecialtyBusiness();
+                    specialty.SpecialtyId = Convert.ToInt32(reader["SpecialtyId"].ToString());
+                    specialty.DepartmentId = Convert.ToInt32(reader["DepartmentId"].ToString());
+                    specialty.SpecialtyFullName = reader["SpecialtyFullName"].ToString();
+                    specialty.SpecialtyShortName = reader["SpecialtyShortName"].ToString();
+                    specialty.SpecialtyDescription = reader["SpecialtyDescription"].ToString();
+                    specialty.DepartmentFullName = reader["DepartmentFullName"].ToString();
+                    specialty.DepartmentShortName = reader["DepartmentShortName"].ToString();
+                    listSpecialty.Add(specialty);
+                }
+            }
+            return listSpecialty;
+        }
+
+
+
         public IList<SpecialtyBusiness> GetSpecialtyByDepartmentId(int departmentId)
         {
             IList<SpecialtyBusiness> listSpecialty = new List<SpecialtyBusiness>();
-            string sql = "select * from Specialty where DepartmentId = @DepartmentId";
+            string sql = "SELECT   Specialty.*, Department.DepartmentFullName, Department.DepartmentShortName FROM Specialty INNER JOIN Department ON Specialty.DepartmentId = Department.DepartmentId where Department.DepartmentId = @DepartmentId";
             SqlParameter parameter = new SqlParameter("@DepartmentId", SqlDbType.Int);
             parameter.Value = departmentId;
             using (SqlDataReader reader = DBHelper.ExecuteReader(sql, parameter))
@@ -46,6 +70,8 @@ namespace MyNCVT.DAL
                     specialty.SpecialtyFullName = reader["SpecialtyFullName"].ToString();
                     specialty.SpecialtyShortName = reader["SpecialtyShortName"].ToString();
                     specialty.SpecialtyDescription = reader["SpecialtyDescription"].ToString();
+                    specialty.DepartmentFullName = reader["DepartmentFullName"].ToString();
+                    specialty.DepartmentShortName = reader["DepartmentShortName"].ToString();
                     listSpecialty.Add(specialty);
                 }
             }

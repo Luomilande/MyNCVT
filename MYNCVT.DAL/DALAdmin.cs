@@ -13,16 +13,8 @@ namespace MyNCVT.DAL
 
         public DataSet GetAllAdmin()
         {
-            DataSet dsAdmin = new DataSet();
-            using (SqlConnection conn = new SqlConnection(DBHelper.connString))
-            {
-                conn.Open();
-                string sql = "select * from Admin";
-                using (SqlDataAdapter ada = new SqlDataAdapter(sql, conn))
-                {
-                    ada.Fill(dsAdmin);
-                }
-            }
+            string sql = "select * from Admin";
+            DataSet dsAdmin = DBHelper.Query(sql);            
             return dsAdmin;
         }
     }

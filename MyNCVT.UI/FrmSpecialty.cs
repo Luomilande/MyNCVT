@@ -24,16 +24,9 @@ namespace MyNCVT.UI
         {
             InitDepartment();
             lvwSpecialty.Items.Clear();
-            IList<Specialty> listSpecialty = bllSpecialty.GetAllSpecialty();
-            if (listSpecialty != null && listSpecialty.Count > 0)
-            {
-                foreach (Specialty specialty in listSpecialty)
-                {
-                    ListViewItem lvi = new ListViewItem(specialty.SpecialtyFullName);
-                    lvi.SubItems.Add(specialty.DepartmentId.ToString());
-                    lvwSpecialty.Items.Add(lvi);
-                }
-            }
+            lvwSpecialty.FullRowSelect = true;  //整行选中
+            IList<SpecialtyBusiness> listSpecialty = bllSpecialty.GetAllSpecialtyBusiness();
+            DisplaySpecialty(listSpecialty);
         }
 
         private void InitDepartment()
@@ -47,15 +40,30 @@ namespace MyNCVT.UI
 
         private void cmbDepartment_SelectedIndexChanged(object sender, EventArgs e)
         {
+            IList<SpecialtyBusiness> listSpecialty = null;
             int n = Convert.ToInt32(cmbDepartment.SelectedValue.ToString());
             lvwSpecialty.Items.Clear();
-            IList<SpecialtyBusiness> listSpecialty = bllSpecialty.GetSpecialtyByDepartmentId(n);
-            if (listSpecialty!=null && listSpecialty.Count>0)
+            if (n == -1)
             {
-                foreach (Specialty specialty in listSpecialty)
+                listSpecialty = bllSpecialty.GetAllSpecialtyBusiness();
+            }
+            else
+            {
+                listSpecialty = bllSpecialty.GetSpecialtyByDepartmentId(n);
+            }
+
+            DisplaySpecialty(listSpecialty);
+        }
+
+        private void DisplaySpecialty(IList<SpecialtyBusiness> listSpecialty)
+        {
+            if (listSpecialty != null && listSpecialty.Count > 0)
+            {
+                foreach (SpecialtyBusiness specialty in listSpecialty)
                 {
                     ListViewItem lvi = new ListViewItem(specialty.SpecialtyFullName);
-                    lvi.SubItems.Add(specialty.DepartmentId.ToString());
+                    lvi.SubItems.Add(specialty.DepartmentShortName.ToString());
+                    lvi.Tag = specialty.SpecialtyId;
                     lvwSpecialty.Items.Add(lvi);
                 }
             }
@@ -65,7 +73,24 @@ namespace MyNCVT.UI
                 lvi.ForeColor = Color.Red;
                 lvwSpecialty.Items.Add(lvi);
                 //MessageBox.Show("该部门无专业信息，请添加！");
-            } 
+            }
+        }
+
+        private void btnSpecialtyManager_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnModify_Click(object sender, EventArgs e)
+        {
+            if (lvwSpecialty.SelectedItems.Count > 0)
+            {
+                int n =Convert.ToInt32(lvwSpecialty.SelectedItems[0].Tag);
+                foreach (ListViewItem item in lvwSpecialty.SelectedItems)
+                    for (int i = 0; i < item.SubItems.Count; i++)
+                        MessageBox.Show(item.SubItems[i].Text);
+
+            }
         }
     }
 }

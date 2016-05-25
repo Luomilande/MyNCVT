@@ -16,9 +16,15 @@ namespace MyNCVT.BLL
         #endregion
 
         #region Public Methods
+
         public IList<Specialty> GetAllSpecialty()
         {
             return dalSpecitlty.GetAllSpecialty();
+        }
+
+        public IList<SpecialtyBusiness> GetAllSpecialtyBusiness()
+        {
+            return dalSpecitlty.GetAllSpecialtyBusiness();
         }
 
         public IList<SpecialtyBusiness> GetSpecialtyByDepartmentId(int departmentId)

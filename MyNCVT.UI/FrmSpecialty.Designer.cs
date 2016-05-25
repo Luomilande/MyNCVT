@@ -41,6 +41,7 @@
             this.lvwSpecialty = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.btnModify = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -86,6 +87,7 @@
             this.btnSpecialtyManager.TabIndex = 6;
             this.btnSpecialtyManager.Text = "增加专业";
             this.btnSpecialtyManager.UseVisualStyleBackColor = true;
+            this.btnSpecialtyManager.Click += new System.EventHandler(this.btnSpecialtyManager_Click);
             // 
             // txtSpecialtyDescription
             // 
@@ -152,18 +154,29 @@
             // columnHeader1
             // 
             this.columnHeader1.Text = "专业名称";
-            this.columnHeader1.Width = 160;
+            this.columnHeader1.Width = 175;
             // 
             // columnHeader2
             // 
             this.columnHeader2.Text = "部门";
-            this.columnHeader2.Width = 80;
+            this.columnHeader2.Width = 112;
+            // 
+            // btnModify
+            // 
+            this.btnModify.Location = new System.Drawing.Point(587, 415);
+            this.btnModify.Name = "btnModify";
+            this.btnModify.Size = new System.Drawing.Size(75, 23);
+            this.btnModify.TabIndex = 4;
+            this.btnModify.Text = "修改";
+            this.btnModify.UseVisualStyleBackColor = true;
+            this.btnModify.Click += new System.EventHandler(this.btnModify_Click);
             // 
             // FrmSpecialty
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(679, 461);
+            this.Controls.Add(this.btnModify);
             this.Controls.Add(this.lvwSpecialty);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.cmbDepartment);
@@ -193,5 +206,6 @@
         private System.Windows.Forms.ListView lvwSpecialty;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
+        private System.Windows.Forms.Button btnModify;
     }
 }
