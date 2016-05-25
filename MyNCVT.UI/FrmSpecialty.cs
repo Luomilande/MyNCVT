@@ -13,8 +13,11 @@ namespace MyNCVT.UI
 {
     public partial class FrmSpecialty : Form
     {
+        #region Private Members
         private BLLSpecialty bllSpecialty = new BLLSpecialty();
         private BLLDepartment bllDepartment = new BLLDepartment();
+
+        #endregion
         public FrmSpecialty()
         {
             InitializeComponent();
@@ -51,7 +54,6 @@ namespace MyNCVT.UI
             {
                 listSpecialty = bllSpecialty.GetSpecialtyByDepartmentId(n);
             }
-
             DisplaySpecialty(listSpecialty);
         }
 
