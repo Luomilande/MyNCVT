@@ -1,0 +1,47 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Data" #>
+<#@ assembly name="System.XML" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Data" #>
+<#@ import namespace="System.Data.SqlClient" #>
+<#@ output extension=".cs" #>
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace MyNCVT.Model
+{<#
+	SqlConnection conn = new SqlConnection("Data Source=.;Initial Catalog=MyNCVT;Integrated Security=True");
+	conn.Open();
+	System.Data.DataTable schema = conn.GetSchema("TABLES");
+	string selectQuery = "select * from @tableName";
+	SqlCommand command = new SqlCommand(selectQuery,conn);
+	SqlDataAdapter ad = new SqlDataAdapter(command);
+	System.Data.DataSet ds = new DataSet();        
+	foreach(System.Data.DataRow row in schema.Rows)
+	{#>
+
+    /// <summary>
+    /// <#= row["TABLE_NAME"].ToString().Trim()#>: 数据实体类
+    /// </summary>
+	[Serializable]
+	public class <#= row["TABLE_NAME"].ToString().Trim()#>
+	{
+	<#  ds.Tables.Clear();
+	command.CommandText = selectQuery.Replace("@tableName",row["TABLE_NAME"].ToString());
+	ad.FillSchema(ds, SchemaType.Mapped, row["TABLE_NAME"].ToString());
+	foreach (DataColumn dc in ds.Tables[0].Columns){ #>
+
+        /// <summary>
+        /// <#= dc.ColumnName #>: 
+        /// </summary>
+        public <#= dc.DataType.Name #> <#= dc.ColumnName #> { get; set; }
+	<# }  #>
+} 
+
+<# } #>   
+}

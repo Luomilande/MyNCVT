@@ -16,6 +16,7 @@ namespace MyNCVT.DAL
     public class DBHelper
     {
         #region 连接字符串
+        // 注意在不同的机器上要检查是否修改 Data Source=
         private static readonly string connString = @"Data Source=.;Initial Catalog=MyNCVT;Integrated Security=True";
 
         #endregion

@@ -6,12 +6,25 @@ using System.Text;
 namespace MyNCVT.Model
 {
     /// <summary>
-    /// TeacherPosition：实体类，教师职位
+    /// TeacherPosition: 教师岗位，数据实体类
     /// </summary>
+    [Serializable]
     public class TeacherPosition
     {
-        public int TeacherPositionId { get; set; }
-        public string TeacherPositionName { get; set; }
-        public string TeacherPositionDescription { get; set; }
-    }
+        /// <summary>
+        /// TeacherPositionId: 教师岗位编号
+        /// </summary>
+        public Int32 TeacherPositionId { get; set; }
+
+        /// <summary>
+        /// TeacherPositionName: 教师岗位名称
+        /// </summary>
+        public String TeacherPositionName { get; set; }
+
+        /// <summary>
+        /// TeacherPositionDescription: 教师岗位描述
+        /// </summary>
+        public String TeacherPositionDescription { get; set; }
+    } 
+
 }
