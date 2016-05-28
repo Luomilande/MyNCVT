@@ -13,28 +13,37 @@ namespace MyNCVT.UI
 {
     public partial class FrmTeacher : Form
     {
+        #region Private Members
         private BLLDepartment bllDepartment = new BLLDepartment();
         private BLLSpecialty bllSpecialty = new BLLSpecialty();
         private BLLTeacherTitle bllTeacherTitle = new BLLTeacherTitle();
         private BLLTeacherPosition bllTeacherPosition = new BLLTeacherPosition();
         private BLLTeacher bllTeacher = new BLLTeacher();
+
+        #endregion
+
         public FrmTeacher()
         {
             InitializeComponent();
         }
 
+
+        /// <summary>
+        /// 窗体载入事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FrmTeacher_Load(object sender, EventArgs e)
         {
-            InitDepartmnet();
-
-            InitTeacherTitle();
-
-            InitTeacherPosition();
-
-            InitDgvTeacher();
-
+            InitDepartmnet();        //初始化部门下拉框
+            InitTeacherTitle();      //初始化职称下拉框
+            InitTeacherPosition();   //初始化岗位下拉框
+            InitDgvTeacher();        //初始化教师数据表格
         }
 
+        /// <summary>
+        /// 初始化教师数据表格
+        /// </summary>
         private void InitDgvTeacher()
         {
             dgvTeacher.AutoGenerateColumns = false;
@@ -43,6 +52,9 @@ namespace MyNCVT.UI
             dgvTeacher.DataSource = bllTeacher.GetAllTeacherBusiness();
         }
 
+        /// <summary>
+        /// 初始化岗位下拉框
+        /// </summary>
         private void InitTeacherPosition()
         {
             cmbTeacherPosition.DisplayMember = "TeacherPositionName";
@@ -50,6 +62,9 @@ namespace MyNCVT.UI
             cmbTeacherPosition.DataSource = bllTeacherPosition.GetAllTeacherPositon();
         }
 
+        /// <summary>
+        /// 初始化职称下拉框
+        /// </summary>
         private void InitTeacherTitle()
         {
             cmbTeacherTitle.DisplayMember = "TeacherTitleName";
@@ -57,6 +72,9 @@ namespace MyNCVT.UI
             cmbTeacherTitle.DataSource = bllTeacherTitle.GetAllTeacherTitle();
         }
 
+        /// <summary>
+        /// 初始化部门下拉框
+        /// </summary>
         private void InitDepartmnet()
         {
             /*
@@ -93,10 +111,18 @@ namespace MyNCVT.UI
             }
             else
             {
+                cmbSpecialty.DataSource = null;
+                cmbSpecialty.Items.Clear();
                 cmbSpecialty.Enabled = false;
+                InitDgvTeacher();
             }
         }
 
+        /// <summary>
+        /// 添加教师按钮
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnAddTeacher_Click(object sender, EventArgs e)
         {
             int n = int.Parse(cmbDepartment.SelectedValue.ToString());

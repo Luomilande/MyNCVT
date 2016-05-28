@@ -31,6 +31,11 @@ namespace MyNCVT.BLL
         {
             return dalSpecitlty.GetSpecialtyByDepartmentId(departmentId);
         }
+
+        public bool AddSpecialty(Specialty specialty)
+        {
+            return dalSpecitlty.AddSpecialty(specialty);
+        }
         #endregion
     }
 }

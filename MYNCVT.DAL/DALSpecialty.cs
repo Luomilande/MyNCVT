@@ -10,6 +10,7 @@ namespace MyNCVT.DAL
 {
     public class DALSpecialty
     {
+        #region Public Methods
         public IList<Specialty> GetAllSpecialty()
         {
             IList<Specialty> listSpecialty = new List<Specialty>();
@@ -77,5 +78,24 @@ namespace MyNCVT.DAL
             }
             return listSpecialty;
         }
+
+        public bool AddSpecialty(Specialty specialty)
+        {
+            string sql = "insert into Specialty(DepartmentId, SpecialtyFullName, SpecialtyShortName, SpecialtyDescription) values(@DepartmentId, @SpecialtyFullName, @SpecialtyShortName, @SpecialtyDescription)";
+            SqlParameter[] parameters = {
+                                            new SqlParameter("@DepartmentId", SqlDbType.Int),
+                                            new SqlParameter("@SpecialtyFullName", SqlDbType.VarChar, 50),
+                                            new SqlParameter("@SpecialtyShortName", SqlDbType.VarChar, 50),
+                                            new SqlParameter("@SpecialtyDescription", SqlDbType.VarChar, 200)
+                                        };
+            parameters[0].Value = specialty.DepartmentId;
+            parameters[1].Value = specialty.SpecialtyFullName;
+            parameters[2].Value = specialty.SpecialtyShortName;
+            parameters[3].Value = specialty.SpecialtyDescription;
+            int n = DBHelper.ExecuteCommand(sql, parameters);
+            return n == 1;            
+        }
+
+        #endregion
     }
 }

@@ -11,11 +11,15 @@ using MyNCVT.Model;
 
 namespace MyNCVT.UI
 {
+    /// <summary>
+    /// 专业设置窗体
+    /// </summary>
     public partial class FrmSpecialty : Form
     {
         #region Private Members
         private BLLSpecialty bllSpecialty = new BLLSpecialty();
         private BLLDepartment bllDepartment = new BLLDepartment();
+        private Specialty specialty = new Specialty();
 
         #endregion
         public FrmSpecialty()
@@ -23,15 +27,22 @@ namespace MyNCVT.UI
             InitializeComponent();
         }
 
+        /// <summary>
+        /// 窗体载入事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FrmSpecialty_Load(object sender, EventArgs e)
         {
             InitDepartment();
-            lvwSpecialty.Items.Clear();
             lvwSpecialty.FullRowSelect = true;  //整行选中
             IList<SpecialtyBusiness> listSpecialty = bllSpecialty.GetAllSpecialtyBusiness();
             DisplaySpecialty(listSpecialty);
         }
 
+        /// <summary>
+        /// 初始化部门下拉框
+        /// </summary>
         private void InitDepartment()
         {
             IList<Department> listDepartment = bllDepartment.GetAllDepartment();
@@ -45,7 +56,6 @@ namespace MyNCVT.UI
         {
             IList<SpecialtyBusiness> listSpecialty = null;
             int n = Convert.ToInt32(cmbDepartment.SelectedValue.ToString());
-            lvwSpecialty.Items.Clear();
             if (n == -1)
             {
                 listSpecialty = bllSpecialty.GetAllSpecialtyBusiness();
@@ -59,6 +69,7 @@ namespace MyNCVT.UI
 
         private void DisplaySpecialty(IList<SpecialtyBusiness> listSpecialty)
         {
+            lvwSpecialty.Items.Clear();
             if (listSpecialty != null && listSpecialty.Count > 0)
             {
                 foreach (SpecialtyBusiness specialty in listSpecialty)
@@ -80,6 +91,23 @@ namespace MyNCVT.UI
 
         private void btnSpecialtyManager_Click(object sender, EventArgs e)
         {
+            specialty = new Specialty();
+            specialty.DepartmentId = Convert.ToInt32(cmbDepartment.SelectedValue);
+            specialty.SpecialtyFullName = txtSpecialtyFullName.Text.Trim();
+            specialty.SpecialtyShortName = txtSpecialtyShoftName.Text.Trim();
+            specialty.SpecialtyDescription = txtSpecialtyDescription.Text;
+            if (bllSpecialty.AddSpecialty(specialty))
+            {
+                IList<SpecialtyBusiness> listSpecialty = bllSpecialty.GetSpecialtyByDepartmentId(specialty.DepartmentId);
+                DisplaySpecialty(listSpecialty);
+                txtSpecialtyDescription.Text = string.Empty;
+                txtSpecialtyDescription.Text = string.Empty;
+                txtSpecialtyShoftName.Text = string.Empty;
+            }
+            else
+            {
+                MessageBox.Show("无法添加该专业", "添加失败");
+            }
 
         }
 
