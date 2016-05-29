@@ -173,6 +173,57 @@ namespace MyNCVT.DAL
             return ds;
         }
 
+        public static void SqlBulkCopyByDatatable(string TableName, DataTable Dt)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                using (SqlBulkCopy sqlbulkcopy = new SqlBulkCopy(connString, SqlBulkCopyOptions.UseInternalTransaction))
+                {
+                    try
+                    {
+                        sqlbulkcopy.BulkCopyTimeout = 5000;//指定超时时间 以秒为单位 默认超时时间是30秒,设置为0即不限时间
+                        sqlbulkcopy.DestinationTableName = TableName;//目标数据库表名
+
+                        for (int i = 0; i < Dt.Columns.Count; i++)
+                        {
+                            //映射字段名 DataTable列名 ,数据库对应列名  
+                            sqlbulkcopy.ColumnMappings.Add(Dt.Columns[i].ColumnName, Dt.Columns[i].ColumnName);
+                        }
+                        /*                
+                        //额外,可不写：设置一次性处理的行数。这个行数处理完后，会激发SqlRowsCopied()方法。默认为1 
+                        //这个可以用来提示用户S，qlBulkCopy的进度 
+                        sqlbulkcopy.NotifyAfter = 1;
+                        //设置激发的SqlRowsCopied()方法，这里为sqlbulkcopy_SqlRowsCopied  
+                        sqlbulkcopy.SqlRowsCopied += new SqlRowsCopiedEventHandler(bulkCopy_SqlRowsCopied);
+                        */
+                        sqlbulkcopy.WriteToServer(Dt);//将数据源拷备到目标数据库
+                    }
+                    catch (System.Exception e)
+                    {
+                        // throw e;
+                        string eMessage = e.Message.ToString();
+                        int indexLeft = eMessage.IndexOf("重复键值为 (") + 7;
+                        int indexRight = eMessage.IndexOf(")。");
+                        int strLength = indexRight - indexLeft;
+                        if (indexLeft != -1)
+                        {
+                            throw new Exception("批量导入失败，存在重复记录：" + eMessage.Substring(indexLeft, strLength));
+                        }
+                        else
+                        {
+                            throw e;
+                        }
+
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
+                }
+            }
+        }
+
+
         #endregion
     }
 }

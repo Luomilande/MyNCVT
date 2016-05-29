@@ -11,10 +11,20 @@ using MyNCVT.Model;
  * 功能描述：Department（部门）数据访问层支持类
  * *********************************************/
 namespace MyNCVT.DAL
-{
+{ 
     public class DALDepartment
     {
         #region Public Methods
+
+        public DataSet GetAllDepartmentForDataSet()
+        {
+            DataSet dsDepartment = new DataSet();
+            string strSQL = "select * from Department";
+            dsDepartment = DBHelper.Query(strSQL);
+            return dsDepartment;
+        }
+
+
         /// <summary>
         /// 获取所有的部门
         /// </summary>

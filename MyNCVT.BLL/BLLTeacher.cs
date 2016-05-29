@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using MyNCVT.DAL;
 using MyNCVT.Model;
+using System.Data;
 
 namespace MyNCVT.BLL
 {
@@ -24,5 +25,16 @@ namespace MyNCVT.BLL
         {
             return dalTeacher.AddTeacher(teacher);
         }
+
+        public bool DeleteAllTempTeacher()
+        {
+            return dalTeacher.DeleteAllTempTeacher();
+        }
+
+        public void SqlBulkCopyByDatatable(string TableName, DataTable dt)
+        {
+            dalTeacher.SqlBulkCopyByDatatable(TableName, dt);
+        }
+
     }
 }

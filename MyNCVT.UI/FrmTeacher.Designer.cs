@@ -57,6 +57,7 @@
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnImportTeacher = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTeacher)).BeginInit();
             this.SuspendLayout();
@@ -254,6 +255,7 @@
             // 
             this.dgvTeacher.AllowUserToAddRows = false;
             this.dgvTeacher.AllowUserToDeleteRows = false;
+            this.dgvTeacher.AllowUserToOrderColumns = true;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.dgvTeacher.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvTeacher.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -333,11 +335,22 @@
             this.Column8.ReadOnly = true;
             this.Column8.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             // 
+            // btnImportTeacher
+            // 
+            this.btnImportTeacher.Location = new System.Drawing.Point(870, 55);
+            this.btnImportTeacher.Name = "btnImportTeacher";
+            this.btnImportTeacher.Size = new System.Drawing.Size(75, 23);
+            this.btnImportTeacher.TabIndex = 15;
+            this.btnImportTeacher.Text = "批量导入";
+            this.btnImportTeacher.UseVisualStyleBackColor = true;
+            this.btnImportTeacher.Click += new System.EventHandler(this.btnImportTeacher_Click);
+            // 
             // FrmTeacher
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(973, 483);
+            this.Controls.Add(this.btnImportTeacher);
             this.Controls.Add(this.dgvTeacher);
             this.Controls.Add(this.panel1);
             this.Name = "FrmTeacher";
@@ -380,5 +393,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
+        private System.Windows.Forms.Button btnImportTeacher;
     }
 }

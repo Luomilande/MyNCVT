@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using MyNCVT.DAL;
 using MyNCVT.Model;
+using System.Data;
 
 namespace MyNCVT.BLL
 {
@@ -39,6 +40,11 @@ namespace MyNCVT.BLL
             return dalDepartment.DeleteDepartmentByDepartmentId(departmentId);
         }
 
+
+        public DataSet GetAllDepartmentForDataSet()
+        {
+            return dalDepartment.GetAllDepartmentForDataSet();
+        }
         #endregion
     }
 }

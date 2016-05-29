@@ -96,6 +96,8 @@ namespace MyNCVT.DAL
             return n == 1;            
         }
 
+
+
         #endregion
     }
 }

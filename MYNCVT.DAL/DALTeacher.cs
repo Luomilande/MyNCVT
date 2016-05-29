@@ -110,5 +110,48 @@ namespace MyNCVT.DAL
             int n = DBHelper.ExecuteCommand(sql, parameters);            
             return n == 1;
         }
+
+        /// <summary>
+        /// 从临时表中将数据添加到教师表中
+        /// </summary>
+        /// <returns></returns>
+        public bool ImportTeacher()
+        {
+            StringBuilder sql = new StringBuilder();
+            sql.Append("insert into Teacher(");
+            sql.Append("(");
+            sql.Append("DepartmentId, SpecialtyId, TeacherNo, TeacherName, ");
+            sql.Append("TeacherGender, TeacherTitleId, TeacherPositionId,TeacherEnabled ");
+            sql.Append(")");
+            sql.Append("SELECT Department.DepartmentId, Specialty.SpecialtyId, ");
+            sql.Append("TempTeacher.TPTeacherNo, TempTeacher.TPTeacherName, ");
+            sql.Append("TempTeacher.TPTeacherGender, TeacherTitle.TeacherTitleId, ");
+            sql.Append("TeacherPosition.TeacherPositionId, TempTeacher.TPTeacherEnable ");
+            sql.Append("FROM TempTeacher ");
+            sql.Append("INNER JOIN TeacherTitle ON TempTeacher.TPTeacherTitle = TeacherTitle.TeacherTitleName ");
+            sql.Append("INNER JOIN TeacherPosition ");
+            sql.Append("ON TempTeacher.TPTeacherPosition = TeacherPosition.TeacherPositionName ");
+            sql.Append("INNER JOIN Department ");
+            sql.Append("ON TempTeacher.TPDepartmentName = Department.DepartmentFullName ");
+            sql.Append("INNER JOIN Specialty ");
+            sql.Append("ON TempTeacher.TPSpecialtyName = Specialty.SpecialtyFullName");
+            int n = DBHelper.ExecuteCommand(sql.ToString());
+            return n > 0;
+
+        }
+
+
+        public bool DeleteAllTempTeacher()
+        {
+            string sql = "delete from TempTeacher";
+            int n = DBHelper.ExecuteCommand(sql);
+            return n > 0;
+        }
+
+        public void SqlBulkCopyByDatatable(string TableName, DataTable dt)
+        {
+            DBHelper.SqlBulkCopyByDatatable(TableName, dt);
+        }
+
     }
 }

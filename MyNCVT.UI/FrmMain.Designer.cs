@@ -39,6 +39,7 @@
             this.tsmiTeacherManager = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiStudentInfo = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiCourseInfo = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiImportTeacher = new System.Windows.Forms.ToolStripMenuItem();
             this.mnsMain.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -68,13 +69,13 @@
             // tsmiTermSetup
             // 
             this.tsmiTermSetup.Name = "tsmiTermSetup";
-            this.tsmiTermSetup.Size = new System.Drawing.Size(152, 22);
+            this.tsmiTermSetup.Size = new System.Drawing.Size(148, 22);
             this.tsmiTermSetup.Text = "学年学期设置";
             // 
             // tsmiAdminInfo
             // 
             this.tsmiAdminInfo.Name = "tsmiAdminInfo";
-            this.tsmiAdminInfo.Size = new System.Drawing.Size(152, 22);
+            this.tsmiAdminInfo.Size = new System.Drawing.Size(148, 22);
             this.tsmiAdminInfo.Text = "管理员信息";
             this.tsmiAdminInfo.Click += new System.EventHandler(this.tsmiAdminInfo_Click);
             // 
@@ -104,7 +105,8 @@
             // tsmiTeacherInfo
             // 
             this.tsmiTeacherInfo.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiTeacherManager});
+            this.tsmiTeacherManager,
+            this.tsmiImportTeacher});
             this.tsmiTeacherInfo.Name = "tsmiTeacherInfo";
             this.tsmiTeacherInfo.Size = new System.Drawing.Size(68, 21);
             this.tsmiTeacherInfo.Text = "教师管理";
@@ -112,7 +114,7 @@
             // tsmiTeacherManager
             // 
             this.tsmiTeacherManager.Name = "tsmiTeacherManager";
-            this.tsmiTeacherManager.Size = new System.Drawing.Size(124, 22);
+            this.tsmiTeacherManager.Size = new System.Drawing.Size(152, 22);
             this.tsmiTeacherManager.Text = "教师设置";
             this.tsmiTeacherManager.Click += new System.EventHandler(this.tsmiTeacherManager_Click);
             // 
@@ -127,6 +129,13 @@
             this.tsmiCourseInfo.Name = "tsmiCourseInfo";
             this.tsmiCourseInfo.Size = new System.Drawing.Size(68, 21);
             this.tsmiCourseInfo.Text = "课程管理";
+            // 
+            // tsmiImportTeacher
+            // 
+            this.tsmiImportTeacher.Name = "tsmiImportTeacher";
+            this.tsmiImportTeacher.Size = new System.Drawing.Size(152, 22);
+            this.tsmiImportTeacher.Text = "批量导入教师";
+            this.tsmiImportTeacher.Click += new System.EventHandler(this.tsmiImportTeacher_Click);
             // 
             // FrmMain
             // 
@@ -159,6 +168,7 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiDepartment;
         private System.Windows.Forms.ToolStripMenuItem tsmiDepartmentInfo;
         private System.Windows.Forms.ToolStripMenuItem tsmiSpecialtyInfo;
+        private System.Windows.Forms.ToolStripMenuItem tsmiImportTeacher;
     }
 }
 

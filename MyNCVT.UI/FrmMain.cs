@@ -48,6 +48,13 @@ namespace MyNCVT.UI
             frmAdmin.Show();
         }
 
+        private void tsmiImportTeacher_Click(object sender, EventArgs e)
+        {
+            FrmImportTeacher frmImportTeacher = new FrmImportTeacher();
+            frmImportTeacher.MdiParent = this;
+            frmImportTeacher.Show();
+        }
+
         
     }
 }
