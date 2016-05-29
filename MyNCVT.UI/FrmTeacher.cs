@@ -28,9 +28,8 @@ namespace MyNCVT.UI
             InitializeComponent();
         }
 
-
         /// <summary>
-        /// 窗体载入事件
+        /// 描述：窗体载入事件
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -43,7 +42,7 @@ namespace MyNCVT.UI
         }
 
         /// <summary>
-        /// 初始化教师数据表格
+        /// 描述：初始化教师数据表格
         /// </summary>
         private void InitDgvTeacher()
         {
@@ -54,7 +53,7 @@ namespace MyNCVT.UI
         }
 
         /// <summary>
-        /// 初始化岗位下拉框
+        /// 描述：初始化岗位下拉框
         /// </summary>
         private void InitTeacherPosition()
         {
@@ -64,7 +63,7 @@ namespace MyNCVT.UI
         }
 
         /// <summary>
-        /// 初始化职称下拉框
+        /// 描述：初始化职称下拉框
         /// </summary>
         private void InitTeacherTitle()
         {
@@ -74,7 +73,7 @@ namespace MyNCVT.UI
         }
 
         /// <summary>
-        /// 初始化部门下拉框
+        /// 描述：初始化部门下拉框
         /// </summary>
         private void InitDepartmnet()
         {
@@ -120,7 +119,7 @@ namespace MyNCVT.UI
         }
 
         /// <summary>
-        /// 添加教师按钮
+        /// 描述：添加教师按钮
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -133,9 +132,9 @@ namespace MyNCVT.UI
             {
                 Teacher teacher = new Teacher();
                 teacher.DepartmentId = n;
-                teacher.SpecialtyId = int.Parse(cmbSpecialty.SelectedValue.ToString());
-                teacher.TeacherTitleId = int.Parse(cmbTeacherTitle.SelectedValue.ToString());
-                teacher.TeacherPositionId = int.Parse(cmbTeacherPosition.SelectedValue.ToString());
+                teacher.SpecialtyId = Convert.ToInt32(cmbSpecialty.SelectedValue);
+                teacher.TeacherTitleId = Convert.ToInt32(cmbTeacherTitle.SelectedValue);
+                teacher.TeacherPositionId = Convert.ToInt32(cmbTeacherPosition.SelectedValue);
                 teacher.TeacherLoginId = string.Empty;
                 teacher.TeacherLoginPwd = string.Empty;
                 teacher.TeacherNo = no;
@@ -192,12 +191,11 @@ ValiDateNames 控制对话框检查文件名中是否不含有无效的字符或
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 string filePath = openFileDialog.FileName;
-                ExcelToDataSet(filePath);    
+                ExcelToDataSet(filePath); 
             }
-
         }
 
-        private static DataSet ExcelToDataSet(string filePath)
+        private DataSet ExcelToDataSet(string filePath)
         {
             string fileName = System.IO.Path.GetFileName(filePath);//文件名
             string extension = System.IO.Path.GetExtension(filePath);//扩展名 “.xlsx”
@@ -213,10 +211,9 @@ ValiDateNames 控制对话框检查文件名中是否不含有无效的字符或
 
             OleDbConnection conn = new OleDbConnection(strConn);
             conn.Open();
-            string strExcel = "";
+            string strExcel = "select * from [sheet1$]";
             OleDbDataAdapter myCommand = null;
             DataSet ds = null;
-            strExcel = "select * from [sheet1$]";
             myCommand = new OleDbDataAdapter(strExcel, strConn);
             ds = new DataSet();
             myCommand.Fill(ds, "table1");

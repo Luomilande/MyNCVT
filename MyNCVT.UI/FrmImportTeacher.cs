@@ -51,51 +51,58 @@ ValiDateNames 控制对话框检查文件名中是否不含有无效的字符或
             openFileDialog.Filter = "Excel工作簿|*.xlsx|Excel 97-2003工作簿|*.xls";
             openFileDialog.RestoreDirectory = true;
             openFileDialog.FilterIndex = 1;
-            string[] srcColumn ={"部门", "专业", "教工号", "姓名", "性别", "职称", "岗位", "账号启用"};
-            string[] dscColumn = {"TPDepartmentName", "TPSpecialtyName", "TPTeacherNo", "TPTeacherName", "TPTeacherGender", "TPTeacherTitle", "TPTeacherPosition", "TPTeacherEnable"};
+            string[] srcColumn = { "部门", "专业", "教工号", "姓名", "性别", "职称", "岗位", "账号启用" };
+            string[] dscColumn = { "TPDepartmentName", "TPSpecialtyName", "TPTeacherNo", "TPTeacherName", "TPTeacherGender", "TPTeacherTitle", "TPTeacherPosition", "TPTeacherEnable" };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 string filePath = openFileDialog.FileName;
                 dtImport = ExcelToDataSet(filePath).Tables[0];
-                dgvTeacher.DataSource = dtImport;
-                lblTotal.Text =string.Format("此次将要导入 {0} 条教师数据。", dtImport.Rows.Count);
-                bllTeacher.DeleteAllTempTeacher();
-                SqlBulkCopy sbc = new SqlBulkCopy("Data Source=.;Initial Catalog=MyNCVT;Integrated Security=True", SqlBulkCopyOptions.UseInternalTransaction);
-                sbc.BulkCopyTimeout = 5000;
-                try
+                int rows = dtImport.Rows.Count;
+                if (rows > 0)
                 {
-                    sbc.DestinationTableName = "TempTeacher";
-                    for (int i = 0; i < srcColumn.Length; i++)
+                    dgvTeacher.DataSource = dtImport;
+                    lblTotal.Text = string.Format("此次将要导入 {0} 条教师数据。", rows);
+                    bllTeacher.DeleteAllTempTeacher();
+                    using (SqlBulkCopy sbc = new SqlBulkCopy("Data Source=.;Initial Catalog=MyNCVT;Integrated Security=True", SqlBulkCopyOptions.UseInternalTransaction))
                     {
-                        sbc.ColumnMappings.Add(srcColumn[i], dscColumn[i]);
+                        sbc.BulkCopyTimeout = 5000;
+                        try
+                        {
+                            sbc.DestinationTableName = "TempTeacher";
+                            for (int i = 0; i < srcColumn.Length; i++)
+                            {
+                                sbc.ColumnMappings.Add(srcColumn[i], dscColumn[i]);
+                            }
+                            /*
+                            sbc.ColumnMappings.Add("部门", "TPDepartmentName");
+                            sbc.ColumnMappings.Add("专业", "TPSpecialtyName");
+                            sbc.ColumnMappings.Add("教工号", "TPTeacherNo");
+                            sbc.ColumnMappings.Add("姓名", "TPTeacherName");
+                            sbc.ColumnMappings.Add("性别", "TPTeacherGender");
+                            sbc.ColumnMappings.Add("职称", "TPTeacherTitle");
+                            sbc.ColumnMappings.Add("岗位", "TPTeacherPosition");
+                            sbc.ColumnMappings.Add("账号启用", "TPTeacherEnable");
+                            */
+                            sbc.WriteToServer(dtImport);
+                        }
+                        catch (Exception ex)
+                        {
+                            //处理异常
+                        }
+                        finally
+                        {
+                            //sqlcmd.Clone();
+                            //srcConnection.Close();
+                            //desConnection.Close();
+                        }
                     }
-                        /*
-                        sbc.ColumnMappings.Add("部门", "TPDepartmentName");
-                        sbc.ColumnMappings.Add("专业", "TPSpecialtyName");
-                        sbc.ColumnMappings.Add("教工号", "TPTeacherNo");
-                        sbc.ColumnMappings.Add("姓名", "TPTeacherName");
-                        sbc.ColumnMappings.Add("性别", "TPTeacherGender");
-                        sbc.ColumnMappings.Add("职称", "TPTeacherTitle");
-                        sbc.ColumnMappings.Add("岗位", "TPTeacherPosition");
-                        sbc.ColumnMappings.Add("账号启用", "TPTeacherEnable");
-                        */
-                        sbc.WriteToServer(dtImport);
                 }
-                catch (Exception ex)
+                else
                 {
-                    //处理异常
+                    MessageBox.Show("Excel文件无有效数据，请检查。", "读取失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                finally
-                {
-                    //sqlcmd.Clone();
-                    //srcConnection.Close();
-                    //desConnection.Close();
-                }
-
-
 
             }
-
         }
 
         private static DataSet ExcelToDataSet(string filePath)
@@ -111,17 +118,17 @@ ValiDateNames 控制对话框检查文件名中是否不含有无效的字符或
             {
                 strConn = string.Format("Provider=Microsoft.Ace.OleDb.12.0; Data source={0}; Extended Properties='Excel 12.0; IMEX=1'", filePath);
             }
-            OleDbDataAdapter myCommand = null;
+            OleDbDataAdapter oda = null;
             DataSet ds = null;
 
             using (OleDbConnection conn = new OleDbConnection(strConn))
             {
                 conn.Open();
                 string strExcel = "select * from [sheet1$]";
-                using (myCommand = new OleDbDataAdapter(strExcel, strConn))
+                using (oda = new OleDbDataAdapter(strExcel, strConn))
                 {
                     ds = new DataSet();
-                    myCommand.Fill(ds, "table1");
+                    oda.Fill(ds, "table1");
                 }
             }
             return ds;
